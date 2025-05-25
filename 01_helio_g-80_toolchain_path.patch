@@ -1,0 +1,55 @@
+From 163774525c3ee47c963b2b5e6d6b9a7a0cc2f672 Mon Sep 17 00:00:00 2001
+From: SN-Abdullah-Al-Noman <snprotectserver12@gmail.com>
+Date: Mon, 16 Dec 2024 12:15:31 +0600
+Subject: [PATCH] Setting toolchain, clang and clang triple location
+
+---
+ Makefile        | 6 +++---
+ build_kernel.sh | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index e5a3a46ae..22d40324c 100755
+--- a/Makefile
++++ b/Makefile
+@@ -311,7 +311,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
+ # Default value for CROSS_COMPILE is not to prefix executables
+ # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
+ ARCH            ?= arm64
+-CROSS_COMPILE   ?= $(srctree)/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
++CROSS_COMPILE   ?= $(srctree)/../aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
+ 
+ # Architecture as present in compile.h
+ UTS_MACHINE 	:= $(ARCH)
+@@ -373,7 +373,7 @@ HOST_LOADLIBES := $(HOST_LFS_LIBS)
+ AS		= $(CROSS_COMPILE)as
+ LD		= $(CROSS_COMPILE)ld
+ LDGOLD		= $(CROSS_COMPILE)ld.gold
+-CC		= $(srctree)/toolchain/clang/host/linux-x86/clang-r383902/bin/clang
++CC		= $(srctree)/../clang-r383902/bin/clang
+ CPP		= $(CC) -E
+ AR		= $(CROSS_COMPILE)ar
+ NM		= $(CROSS_COMPILE)nm
+@@ -482,7 +482,7 @@ endif
+ 
+ ifeq ($(cc-name),clang)
+ ifneq ($(CROSS_COMPILE),)
+-CLANG_TRIPLE	?= $(srctree)/toolchain/clang/host/linux-x86/clang-r383902/bin/aarch64-linux-gnu-
++CLANG_TRIPLE	?= $(srctree)/../clang-r383902/bin/aarch64-linux-gnu-
+ CLANG_FLAGS	+= --target=$(notdir $(CLANG_TRIPLE:%-=%))
+ ifeq ($(shell $(srctree)/scripts/clang-android.sh $(CC) $(CLANG_FLAGS)), y)
+ $(error "Clang with Android --target detected. Did you specify CLANG_TRIPLE?")
+diff --git a/build_kernel.sh b/build_kernel.sh
+index cf8bc226c..46b83a0ec 100755
+--- a/build_kernel.sh
++++ b/build_kernel.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ 
+-export CROSS_COMPILE=$(pwd)/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
+-export CC=$(pwd)/toolchain/clang/host/linux-x86/clang-r383902/bin/clang
++export CROSS_COMPILE=$(pwd)/../aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
++export CC=$(pwd)/../clang-r383902/bin/clang
+ export CLANG_TRIPLE=aarch64-linux-gnu-
+ export ARCH=arm64
+ export ANDROID_MAJOR_VERSION=r

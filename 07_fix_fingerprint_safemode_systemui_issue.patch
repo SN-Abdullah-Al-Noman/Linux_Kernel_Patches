@@ -1,0 +1,31 @@
+From 326a58c5f95c75fa9d2344a2b552f8fe8a36df8d Mon Sep 17 00:00:00 2001
+From: Abdullah Al Noman
+ <125588871+SN-Abdullah-Al-Noman@users.noreply.github.com>
+Date: Wed, 21 May 2025 20:06:34 +0600
+Subject: [PATCH] Fix Fingerprint: Safemode SystemUI issue
+
+Credit:
+https://github.com/Gabriel2392/android_kernel_samsung_a14_xy/commit/3d2c7022cf9cd3f8761dfe47d30f2ac70cf516e2
+---
+ drivers/fingerprint/gw3x_common.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/fingerprint/gw3x_common.c b/drivers/fingerprint/gw3x_common.c
+index 74887d5c3..b26da63f6 100755
+--- a/drivers/fingerprint/gw3x_common.c
++++ b/drivers/fingerprint/gw3x_common.c
+@@ -707,9 +707,11 @@ int gw3x_get_gpio_dts_info(struct device *dev, struct gf_device *gf_dev)
+ 		gf_dev->orient = 0;
+ 	pr_info("orient: %d\n", gf_dev->orient);
+ 
+-	if (of_property_read_string_index(np, "goodix,position", 0,
+-			(const char **)&gf_dev->position))
+-		gf_dev->position = "NA";
++	//if (of_property_read_string_index(np, "goodix,position", 0,
++			//(const char **)&gf_dev->position))
++		//gf_dev->position = "NA";
++
++	gf_dev->position = "1";
+ 	pr_info("position:%s\n", gf_dev->position);
+ 
+ 	if (of_property_read_u32(np, "goodix,spiclk_speed", &gf_dev->clk_setting->spi_speed))

@@ -1,0 +1,28 @@
+From e15bf4b7bc2244df9ed46e7ec1b1b91dd51d4058 Mon Sep 17 00:00:00 2001
+From: Abdullah Al Noman
+ <125588871+SN-Abdullah-Al-Noman@users.noreply.github.com>
+Date: Mon, 26 May 2025 08:54:46 +0600
+Subject: [PATCH] syscall: Fake uname to 5.4.186 for bpfloader/netd
+
+---
+ kernel/sys.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 1b1ef4d3e..86e7a0aea 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1207,6 +1207,13 @@ SYSCALL_DEFINE1(newuname, struct new_utsname __user *, name)
+ 
+ 	down_read(&uts_sem);
+ 	memcpy(&tmp, utsname(), sizeof(tmp));
++	if (!strncmp(current->comm, "bpfloader", 9) ||
++	    !strncmp(current->comm, "netbpfload", 10) ||
++	    !strncmp(current->comm, "netd", 4)) {
++		strcpy(tmp.release, "5.4.186");
++		pr_debug("fake uname: %s/%d release=%s\n",
++			 current->comm, current->pid, tmp.release);
++	}
+ 	up_read(&uts_sem);
+ 	if (copy_to_user(name, &tmp, sizeof(tmp)))
+ 		return -EFAULT;

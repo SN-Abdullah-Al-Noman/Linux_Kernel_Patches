@@ -6,21 +6,7 @@ Subject: [PATCH] Disable auto add extra localversion.
 ---
  arch/arm64/configs/a22_defconfig | 2 +-
  scripts/setlocalversion          | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/arch/arm64/configs/a22_defconfig b/arch/arm64/configs/a22_defconfig
-index a86d38c13..f24ea2bbc 100755
---- a/arch/arm64/configs/a22_defconfig
-+++ b/arch/arm64/configs/a22_defconfig
-@@ -49,7 +49,7 @@ CONFIG_INIT_ENV_ARG_LIMIT=32
- CONFIG_CROSS_COMPILE="aarch64-linux-android-"
- # CONFIG_COMPILE_TEST is not set
- CONFIG_LOCALVERSION=""
--CONFIG_LOCALVERSION_AUTO=y
-+CONFIG_LOCALVERSION_AUTO=n
- CONFIG_DEFAULT_HOSTNAME="(none)"
- CONFIG_SWAP=y
- # CONFIG_SYSVIPC is not set
+ 1 files changed, 1 insertion(+), 1 deletions(-)
 diff --git a/scripts/setlocalversion b/scripts/setlocalversion
 index 365b3c2b8..49f4f7c6f 100755
 --- a/scripts/setlocalversion

@@ -4,7 +4,6 @@ Date: Sun, 11 May 2025 08:48:46 +0600
 Subject: [PATCH] Disable auto add extra localversion.
 
 ---
- arch/arm64/configs/a22_defconfig | 2 +-
  scripts/setlocalversion          | 1 -
  1 files changed, 1 insertion(+), 1 deletions(-)
 diff --git a/scripts/setlocalversion b/scripts/setlocalversion

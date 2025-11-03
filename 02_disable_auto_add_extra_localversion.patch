@@ -18,4 +18,3 @@ index 365b3c2b8..49f4f7c6f 100755
 -		res="$res${scm:++}"
  	fi
  fi
- 
